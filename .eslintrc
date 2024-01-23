@@ -1,0 +1,25 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "eslint-plugin-import-helpers"],
+  "rules": {
+    "import-helpers/order-imports": [
+      "warn",
+      {
+        "newlinesBetween": "always", // new line between groups
+        "groups": [
+          "/^node:/",
+          "module",
+          "/^@//",
+          ["parent", "sibling", "index"],
+        ],
+        "alphabetize": { "order": "asc", "ignoreCase": true },
+      },
+    ],
+  },
+  "root": true,
+}
