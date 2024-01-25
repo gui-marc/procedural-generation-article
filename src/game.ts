@@ -68,6 +68,38 @@ export default class Game {
 
     const positionAttribute = this.terrain.geometry.getAttribute('position') as THREE.BufferAttribute;
 
+    let minX = Infinity;
+    let maxX = -Infinity;
+    let maxY = -Infinity;
+    let minY = Infinity;
+
+    for (let i = 0; i < positionAttribute.count; i++) {
+      const x = positionAttribute.getX(i);
+      const y = positionAttribute.getY(i);
+
+      if (x < minX) {
+        minX = x;
+      }
+      if (x > maxX) {
+        maxX = x;
+      }
+
+      if (y < minY) {
+        minY = y;
+      }
+      if (y > maxY) {
+        maxY = y;
+      }
+    }
+
+    function normalizedX(x: number) {
+      return (x - minX) / (maxX - minX);
+    }
+
+    function normalizedY(y: number) {
+      return (y - minY) / (maxY - minY);
+    }
+
     for (let i = 0; i < positionAttribute.count; i++) {
       const x = positionAttribute.getX(i);
       const y = positionAttribute.getY(i);
@@ -82,7 +114,7 @@ export default class Game {
         NOISE_PARAMETERS.heightMultiplier,
       );
 
-      const z = noise.sample(x, y);
+      const z = noise.sample(normalizedX(x), normalizedY(y));
 
       positionAttribute.setZ(i, z);
     }
